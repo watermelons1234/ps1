@@ -32,7 +32,9 @@ class HoughCircles(HoughAlgorithms):
 
     @staticmethod
     def draw_circle_3d_peaks(img, radius_range, peaks):
-        maximal_bs, maximal_as, maximal_rs = peaks
+        maximal_bs = peaks[:, 0]
+        maximal_as = peaks[:, 1]
+        maximal_rs = peaks[:, 2]
         for i in range(len(maximal_bs)):
             a = maximal_as[i]
             b = maximal_bs[i]
@@ -72,9 +74,9 @@ class HoughCircles(HoughAlgorithms):
     @staticmethod
     def apply_hough_circles_on_image(image, image_gray, image_edges, radius_range, num_peaks, neigh_shape=(5, 5, 5),
                                      angular_error=0):
-        first_neigh_size, second_neigh_size, third_neigh_size = neigh_shape
+        # first_neigh_size, second_neigh_size, third_neigh_size = neigh_shape
         H = HoughCircles.find_circles_efficiently(image_gray, image_edges, radius_range, angular_error)
-        peaks = HoughCircles.hough_peaks_3d(H, num_peaks, first_neigh_size, second_neigh_size, third_neigh_size)
+        peaks = HoughAlgorithms.hough_peaks(H, num_peaks, neigh_shape)
         HoughCircles.draw_circle_3d_peaks(image, radius_range, peaks)
         plt.imshow(image)
         plt.show()

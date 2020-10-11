@@ -26,7 +26,8 @@ def q4():
     pens_blur = cv2.GaussianBlur(img_4, (7, 7), 2)
     gray_pens_blur = cv2.cvtColor(pens_blur, cv2.COLOR_BGR2GRAY)
     pens_blur_edges = cv2.Canny(gray_pens_blur, 180, 220)
-    HoughLines.apply_hough_lines_on_image(img_4, pens_blur_edges, 4, 10, 2)
+    # HoughLines.apply_hough_lines_on_image(img_4, pens_blur_edges, 4, 10, 2)
+    HoughLines.apply_hough_lines_on_image(img_4, pens_blur_edges, 4, (10, 2))
 
 
 def q5():
@@ -45,7 +46,7 @@ def q6():
     img_6_blur_edges = cv2.Canny(img_6_blur_gray, 60, 350)
     H, rho_range, theta_range = HoughLines.hough_lines_acc(img_6_blur_edges,
                                                            rho_resolution=4 * max(img_6_blur_edges.shape))
-    peaks = HoughAlgorithms.hough_peaks_2d(H, 12, row_neigh_size=10)
+    peaks = HoughAlgorithms.hough_peaks(H, 12, neigh_sizes=(10, 1))
     new_peaks = HoughLines.get_close_parallel_peaks(peaks, rho_range, theta_range)
     HoughLines.hough_lines_draw(img_6, new_peaks, rho_range, theta_range)
     plt.imshow(img_6)
@@ -83,38 +84,3 @@ def question(number):
 if __name__ == '__main__':
     for i in range(2, 9):
         question(i)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def q5():
-#     circles_blur = cv2.GaussianBlur(IMG_4_5, (7, 7), 3)
-#     gray_circles_blur = cv2.cvtColor(circles_blur, cv2.COLOR_BGR2GRAY)
-#     circles_blur_edges = cv2.Canny(gray_circles_blur, 60, 120)
-#     H = CA.hough_circles_acc(circles_blur_edges, 20)
-#     LA.display_hough_heatmap(H)
-#     peaks = LA.hough_peaks(H, 20)
-#     new_img_circles = IMG_4_5.copy()
-#     for peak in peaks:
-#         x = peak[1]
-#         y = peak[0]
-#         cv2.circle(new_img_circles, (x, y), 20, (0, 200, 0), thickness=2)
-#     plt.imshow(new_img_circles)
-#     plt.show()
-#     new_img_circles = IMG_4_5.copy()
-#     H, radius_range = CA.find_circles_bruteforce(circles_blur_edges, range(18, 50))
-#     for i in range(len(radius_range)):
-#         cv2.circle(new_img_circles, )

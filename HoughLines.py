@@ -49,9 +49,9 @@ class HoughLines(HoughAlgorithms):
         cv2.line(img, (x0, y0), (x1, y1), (0, 200, 0), thickness=2)
 
     @staticmethod
-    def apply_hough_lines_on_image(image, image_edges, num_peaks, row_neigh_size=5, col_neigh_size=1):
+    def apply_hough_lines_on_image(image, image_edges, num_peaks, neigh_shape=(5,1)):
         H, rho_range, theta_range = HoughLines.hough_lines_acc(image_edges, rho_resolution=4 * max(image_edges.shape))
-        peaks = HoughLines.hough_peaks_2d(H, num_peaks, row_neigh_size, col_neigh_size)
+        peaks = HoughLines.hough_peaks(H, num_peaks, neigh_shape)
         HoughLines.hough_lines_draw(image, peaks, rho_range, theta_range)
         plt.imshow(image)
         plt.show()
